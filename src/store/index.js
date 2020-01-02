@@ -20,13 +20,16 @@ export default new Vuex.Store({
   mutations: {
     ADD_TO_CART: (state, product) => state.cart.push(product),
     REMOVE_FROM_CART: (state, index) => state.cart.splice(index, 1),
-    ADD_PRODUCT_TO_STORE: (state, product) => state.products.push(product)
+    ADD_PRODUCTS_TO_STORE: (state, products) => {
+      state.products.splice(0, state.products.length, ...products);
+      console.log("Store initialized");
+    }
   },
   actions: {
     async getProductsAsync({ commit }) {
       const response = await fetch(`${apiUrl}/products`);
       const products = await response.json();
-      products.map(product => commit("ADD_PRODUCT_TO_STORE", product));
+      commit("ADD_PRODUCTS_TO_STORE", products);
     }
   },
   modules: {}

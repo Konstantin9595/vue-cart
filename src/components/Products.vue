@@ -1,17 +1,40 @@
 <template>
   <b-container class="products">
     <div class="products__switch-mode">
-      <SwitchProductMode v-on:switchMode="switchMode" />
+      <SwitchProductMode @switchMode="switchMode" />
     </div>
     <div class="products-content">
       <b-row v-if="firstMode" class="first-mode">
         <b-col lg="4" v-for="product in products" :key="product.id">
-          <h2>{{ product.title }}</h2>
+          <b-card
+            :title="product.title"
+            img-src="https://picsum.photos/600/300/?image=25"
+            :img-alt="product.title"
+            body-class="product-card"
+          >
+            <b-card-text>
+              {{ product.text }}
+            </b-card-text>
+
+            <b-button href="#" variant="primary">Подробнее</b-button>
+          </b-card>
         </b-col>
       </b-row>
       <b-row v-else class="second-mode">
         <b-col lg="12" v-for="product in products" :key="product.id">
-          <h2>{{ product.title }}</h2>
+          <b-card
+            :title="product.title"
+            img-src="https://picsum.photos/600/300/?image=25"
+            :img-alt="product.title"
+            body-class="product-card"
+            img-height="200px"
+          >
+            <b-card-text>
+              {{ product.text }}
+            </b-card-text>
+
+            <b-button href="#" variant="primary">Подробнее</b-button>
+          </b-card>
         </b-col>
       </b-row>
     </div>
@@ -29,27 +52,13 @@ export default {
   data() {
     return {
       firstMode: true,
-      products: [
-        {
-          id: 1,
-          title: "product1 TEST",
-          img: "img1.png",
-          text: "lorem ipsum 1 TEST"
-        },
-        {
-          id: 2,
-          title: "product2 TEST",
-          img: "img1.png",
-          text: "lorem ipsum 2 TEST"
-        },
-        {
-          id: 3,
-          title: "product3 TEST",
-          img: "img1.png",
-          text: "lorem ipsum 3 TEST"
-        }
-      ]
+      products: null
     };
+  },
+  mounted() {
+    this.$store.dispatch("getProductsAsync");
+    this.products = this.$store.getters.getProducts;
+    console.log("MOUNTED", this.products);
   },
   methods: {
     switchMode(switched) {
