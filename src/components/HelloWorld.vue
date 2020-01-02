@@ -9,6 +9,10 @@ export default {
   name: "HelloWorld",
   props: {
     msg: String
+  },
+  mounted() {
+    console.log("Mounted");
+    //this.$store.dispatch("getProductsAsync");
   }
 };
 </script>
