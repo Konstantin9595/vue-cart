@@ -15,14 +15,18 @@ export default new Vuex.Store({
   },
   getters: {
     getProducts: state => state.products,
-    getProduct: state => id => state.products.find(product => product.id === id)
+    getProduct: state => id =>
+      state.products.find(product => product.id === id),
+    getItemsFromCart: state => state.cart
   },
   mutations: {
     ADD_TO_CART: (state, product) => state.cart.push(product),
-    REMOVE_FROM_CART: (state, index) => state.cart.splice(index, 1),
     ADD_PRODUCTS_TO_STORE: (state, products) => {
       state.products.splice(0, state.products.length, ...products);
       console.log("Store initialized");
+    },
+    REMOVE_ITEM_FROM_CART: (state, id) => {
+      state.cart.splice(id, 1);
     }
   },
   actions: {
@@ -30,6 +34,13 @@ export default new Vuex.Store({
       const response = await fetch(`${apiUrl}/products`);
       const products = await response.json();
       commit("ADD_PRODUCTS_TO_STORE", products);
+    },
+    async addToCartAsync({ state, commit }, { id }) {
+      const product = state.products.find(el => el.id === id);
+      commit("ADD_TO_CART", product);
+    },
+    async removeItemFromCart({ commit }, { id }) {
+      commit("REMOVE_ITEM_FROM_CART", id);
     }
   },
   modules: {}

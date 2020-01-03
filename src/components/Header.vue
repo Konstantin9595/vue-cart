@@ -11,6 +11,7 @@
           <router-link to="/thanks">Thanks</router-link>
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
+            <Cart />
             <b-nav-item-dropdown text="Lang" right>
               <b-dropdown-item href="#">EN</b-dropdown-item>
               <b-dropdown-item href="#">ES</b-dropdown-item>
@@ -34,11 +35,12 @@
 </template>
 
 <script>
+import Cart from "./Cart.vue";
 export default {
-  name: "Header"
-  //   components: {
-  //     SwitchProductMode
-  //   },
+  name: "Header",
+  components: {
+    Cart
+  }
   //   data() {
   //     return {
   //       firstMode: true,

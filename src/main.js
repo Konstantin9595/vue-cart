@@ -6,6 +6,9 @@ import "./plugins/bootstrap-vue";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
+import VueLodash from "vue-lodash";
+const options = { name: "lodash" };
+Vue.use(VueLodash, options);
 
 Vue.config.productionTip = false;
 

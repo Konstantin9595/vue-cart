@@ -17,6 +17,9 @@
             </b-card-text>
 
             <b-button href="#" variant="primary">Подробнее</b-button>
+            <b-button href="#" variant="primary" @click="addToCart(product.id)"
+              >Добавить в корзину</b-button
+            >
           </b-card>
         </b-col>
       </b-row>
@@ -34,6 +37,9 @@
             </b-card-text>
 
             <b-button href="#" variant="primary">Подробнее</b-button>
+            <b-button href="#" variant="primary" @click="addToCart(product.id)"
+              >Добавить в корзину</b-button
+            >
           </b-card>
         </b-col>
       </b-row>
@@ -63,6 +69,9 @@ export default {
   methods: {
     switchMode(switched) {
       this.firstMode = switched;
+    },
+    addToCart(id) {
+      this.$store.dispatch({ type: "addToCartAsync", id });
     }
   }
 };
