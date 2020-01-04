@@ -64,7 +64,7 @@ export default {
   mounted() {
     this.$store.dispatch("getProductsAsync");
     this.products = this.$store.getters.getProducts;
-    console.log("MOUNTED", this.products);
+    //console.log("MOUNTED", this.products);
   },
   methods: {
     switchMode(switched) {

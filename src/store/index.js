@@ -20,14 +20,23 @@ export default new Vuex.Store({
     getItemsFromCart: state => state.cart
   },
   mutations: {
-    ADD_TO_CART: (state, product) => state.cart.push(product),
+    ADD_TO_CART: (state, product) => {
+      state.cart.push(product);
+      localStorage.setItem("userCartItemsStorage", JSON.stringify(state.cart));
+    },
     ADD_PRODUCTS_TO_STORE: (state, products) => {
       state.products.splice(0, state.products.length, ...products);
       console.log("Store initialized");
     },
     REMOVE_ITEM_FROM_CART: (state, id) => {
-      state.cart.splice(id, 1);
-    }
+      const currIndex = state.cart.findIndex(item => item.id === id);
+      state.cart.splice(currIndex, 1);
+      localStorage.setItem("userCartItemsStorage", JSON.stringify(state.cart));
+    },
+    CART_FROM_STORAGE_INIT: (state, storageState) => {
+      state.cart.push(...storageState);
+    },
+    CART_DEFAULT_INIT: () => {}
   },
   actions: {
     async getProductsAsync({ commit }) {
@@ -41,6 +50,16 @@ export default new Vuex.Store({
     },
     async removeItemFromCart({ commit }, { id }) {
       commit("REMOVE_ITEM_FROM_CART", id);
+    },
+    async cartInit({ commit }) {
+      if (localStorage.getItem("userCartItemsStorage")) {
+        commit(
+          "CART_FROM_STORAGE_INIT",
+          JSON.parse(localStorage.getItem("userCartItemsStorage"))
+        );
+      } else {
+        commit("CART_DEFAULT_INIT");
+      }
     }
   },
   modules: {}

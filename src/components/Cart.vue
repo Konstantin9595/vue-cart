@@ -4,7 +4,8 @@
       <b-button v-b-modal.modal-1 variant="primary">
         <font-awesome-icon icon="shopping-cart" />
         <b-badge variant="light"
-          >{{ getItemsFromCart | count }}(на {{ getItemsFromCart | total }}
+          >{{ getItemsFromCart | count }}(на
+          {{ getItemsFromCart | total }}
           <font-awesome-icon icon="ruble-sign" />)</b-badge
         >
       </b-button>
@@ -16,7 +17,7 @@
       title="BootstrapVue"
     >
       <b-list-group v-if="getItemsFromCart.length">
-        <CartItem :cartItems="getItemsFromCart" />
+        <CartItems :cartItems="getItemsFromCart" />
         <div>
           Итого: {{ getItemsFromCart | total }}
           <font-awesome-icon icon="ruble-sign" />
@@ -30,21 +31,21 @@
 </template>
 
 <script>
-import CartItem from "./CartItem.vue";
-
-// если два и более продукта в карзине с одим и тем же id
-// то
+import CartItems from "./CartItems.vue";
 
 export default {
   name: "Cart",
   components: {
-    CartItem
+    CartItems
   },
   data() {
-    return {};
+    return {
+      userCartItems: []
+    };
   },
   computed: {
     getItemsFromCart() {
+      // возвращает текущий state корзины
       const items = this.$store.getters.getItemsFromCart;
       //const countItems = items;
       return items;
@@ -61,16 +62,9 @@ export default {
     }
   },
   mounted() {
-    console.log("Cart", this.$store.state.cart);
+    this.$store.dispatch("cartInit");
   },
-  methods: {
-    removeItemFromCart(id) {
-      this.$store.dispatch({
-        type: "removeItemFromCart",
-        id
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 
