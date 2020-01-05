@@ -36,7 +36,6 @@
             <b-card-text>
               {{ product.text }}
             </b-card-text>
-
             <b-button href="#" variant="primary">Подробнее</b-button>
             <b-button href="#" variant="primary" @click="addToCart(product.id)"
               >Добавить в корзину</b-button
@@ -50,7 +49,6 @@
 
 <script>
 import SwitchProductMode from "./SwitchProductMode.vue";
-
 export default {
   name: "Products",
   components: {
