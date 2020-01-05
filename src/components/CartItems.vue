@@ -41,39 +41,41 @@ export default {
   computed: {
     changeStateStructure() {
       const data = this.cartItems;
-      const ids = [];
-      let output = [];
 
-      for (let index in data) {
-        // Текущий продукт
-        const obj = data[index];
-        // Если такого продукта еще не существует, то добавляем его в результируюший массив
-        if (!ids.includes(obj.id)) {
-          output.push({
-            id: obj.id,
-            title: obj.title,
-            price: obj.price,
-            count: 1
-          });
-          // Добавляем инфо о том что подукт с таким id уже есть в карзине
-          ids.push(obj.id);
-        } else {
-          const curNdx = output.findIndex(item => item.id === obj.id);
-          const curPrice = output.find(item => item.id === obj.id).price;
-          const curCount = output.find(item => item.id === obj.id).count;
-          const filtered = output.filter(item => item.id !== obj.id);
+      // const ids = [];
+      // let output = [];
 
-          output = [...filtered];
+      // for (let index in data) {
+      //   // Текущий продукт
+      //   const obj = data[index];
+      //   // Если такого продукта еще не существует, то добавляем его в результируюший массив
+      //   if (!ids.includes(obj.id)) {
+      //     output.push({
+      //       id: obj.id,
+      //       title: obj.title,
+      //       price: obj.price,
+      //       count: 1
+      //     });
+      //     // Добавляем инфо о том что подукт с таким id уже есть в карзине
+      //     ids.push(obj.id);
+      //   } else {
+      //     const curNdx = output.findIndex(item => item.id === obj.id);
+      //     const curPrice = output.find(item => item.id === obj.id).price;
+      //     const curCount = output.find(item => item.id === obj.id).count;
+      //     const filtered = output.filter(item => item.id !== obj.id);
 
-          output.splice(curNdx, 0, {
-            id: obj.id,
-            title: obj.title,
-            price: obj.price + curPrice,
-            count: curCount + 1
-          });
-        }
-      }
-      return output;
+      //     output = [...filtered];
+
+      //     output.splice(curNdx, 0, {
+      //       id: obj.id,
+      //       title: obj.title,
+      //       price: obj.price + curPrice,
+      //       count: curCount + 1
+      //     });
+      //   }
+      // }
+      // return output;
+      return data;
     }
   },
   filters: {},

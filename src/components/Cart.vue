@@ -47,7 +47,6 @@ export default {
     getItemsFromCart() {
       // возвращает текущий state корзины
       const items = this.$store.getters.getItemsFromCart;
-      //const countItems = items;
       return items;
     }
   },
@@ -58,6 +57,7 @@ export default {
         .reduce((prev, current) => prev + current, 0);
     },
     count(items) {
+      console.log("Count = ", items);
       return items.length;
     }
   },

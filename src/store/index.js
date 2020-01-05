@@ -21,22 +21,66 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_TO_CART: (state, product) => {
-      state.cart.push(product);
+      const issetIndex = state.cart.findIndex(el => el.id === product.id);
+      let newProduct = null;
+      if (issetIndex !== -1) {
+        const foundProduct = state.cart.find(el => el.id === product.id);
+        const count = foundProduct.count ? foundProduct.count + 1 : 2;
+        newProduct = {
+          id: foundProduct.id,
+          title: foundProduct.title,
+          price: foundProduct.price + product.price,
+          count,
+          singlePrice: product.price
+        };
+      } else {
+        newProduct = product;
+      }
+      issetIndex !== -1
+        ? state.cart.splice(issetIndex, 1, newProduct)
+        : state.cart.push(newProduct);
+
       localStorage.setItem("userCartItemsStorage", JSON.stringify(state.cart));
     },
     ADD_PRODUCTS_TO_STORE: (state, products) => {
-      state.products.splice(0, state.products.length, ...products);
+      const modifiedProducts = products.map(
+        ({ id, title, img, text, price }) => {
+          return { id, title, img, text, price, count: 1 };
+        }
+      );
+      state.products.splice(0, state.products.length, ...modifiedProducts);
       console.log("Store initialized");
     },
     REMOVE_ITEM_FROM_CART: (state, id) => {
-      const currIndex = state.cart.findIndex(item => item.id === id);
-      state.cart.splice(currIndex, 1);
-      localStorage.setItem("userCartItemsStorage", JSON.stringify(state.cart));
+      const issetIndex = state.cart.findIndex(el => el.id === id);
+      let newProduct = null;
+      if (issetIndex !== -1) {
+        const foundProduct = state.cart.find(el => el.id === id);
+        const price = foundProduct.price - foundProduct.singlePrice;
+        const count = foundProduct.count - 1;
+        newProduct = {
+          id: foundProduct.id,
+          title: foundProduct.title,
+          price,
+          count
+        };
+
+        count > 0
+          ? state.cart.splice(issetIndex, 1, newProduct)
+          : state.cart.splice(issetIndex, 1);
+
+        localStorage.setItem(
+          "userCartItemsStorage",
+          JSON.stringify(state.cart)
+        );
+      }
     },
     CART_FROM_STORAGE_INIT: (state, storageState) => {
       state.cart.push(...storageState);
     },
-    CART_DEFAULT_INIT: () => {}
+    CART_DEFAULT_INIT: () => {
+      localStorage.removeItem("userCartItemsStorage");
+    }
   },
   actions: {
     async getProductsAsync({ commit }) {
