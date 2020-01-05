@@ -23,6 +23,8 @@ export default new Vuex.Store({
     ADD_TO_CART: (state, product) => {
       const issetIndex = state.cart.findIndex(el => el.id === product.id);
       let newProduct = null;
+      // если в корзине уже есть этот продукт то комбинируем его в структуру: {id, price, title, count: <+1> }
+      // Что бы в корзине товаров небыло дублей.
       if (issetIndex !== -1) {
         const foundProduct = state.cart.find(el => el.id === product.id);
         const count = foundProduct.count ? foundProduct.count + 1 : 2;
@@ -54,6 +56,7 @@ export default new Vuex.Store({
     REMOVE_ITEM_FROM_CART: (state, id) => {
       const issetIndex = state.cart.findIndex(el => el.id === id);
       let newProduct = null;
+      // если в корзине уже есть этот продукт то удаляем из корзины только одну сущность по этому типу
       if (issetIndex !== -1) {
         const foundProduct = state.cart.find(el => el.id === id);
         const price = foundProduct.price - foundProduct.singlePrice;
@@ -62,7 +65,8 @@ export default new Vuex.Store({
           id: foundProduct.id,
           title: foundProduct.title,
           price,
-          count
+          count,
+          singlePrice: foundProduct.singlePrice
         };
 
         count > 0
@@ -76,7 +80,7 @@ export default new Vuex.Store({
       }
     },
     CART_FROM_STORAGE_INIT: (state, storageState) => {
-      state.cart.push(...storageState);
+      state.cart.splice(0, state.cart.length, ...storageState);
     },
     CART_DEFAULT_INIT: () => {
       localStorage.removeItem("userCartItemsStorage");

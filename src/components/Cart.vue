@@ -15,6 +15,8 @@
       ok-title="Заказать"
       id="modal-1"
       title="BootstrapVue"
+      @ok="handleOk"
+      :ok-disabled="getItemsFromCart.length ? false : true"
     >
       <b-list-group v-if="getItemsFromCart.length">
         <CartItems :cartItems="getItemsFromCart" />
@@ -40,7 +42,8 @@ export default {
   },
   data() {
     return {
-      userCartItems: []
+      userCartItems: [],
+      checkout: true
     };
   },
   computed: {
@@ -57,14 +60,17 @@ export default {
         .reduce((prev, current) => prev + current, 0);
     },
     count(items) {
-      console.log("Count = ", items);
       return items.length;
     }
   },
   mounted() {
     this.$store.dispatch("cartInit");
   },
-  methods: {}
+  methods: {
+    handleOk() {
+      this.$router.push("/checkout");
+    }
+  }
 };
 </script>
 

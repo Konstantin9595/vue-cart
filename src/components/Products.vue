@@ -31,6 +31,7 @@
             :img-alt="product.title"
             body-class="product-card"
             img-height="200px"
+            class="mb-2"
           >
             <b-card-text>
               {{ product.text }}
@@ -64,7 +65,6 @@ export default {
   mounted() {
     this.$store.dispatch("getProductsAsync");
     this.products = this.$store.getters.getProducts;
-    //console.log("MOUNTED", this.products);
   },
   methods: {
     switchMode(switched) {
@@ -78,4 +78,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.card {
+  margin: 10px 0;
+}
+</style>

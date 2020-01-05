@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Thank from "../views/Thank.vue";
-
+import Checkout from "../views/Checkout.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -15,6 +15,11 @@ const routes = [
     path: "/thanks",
     name: "thank",
     component: Thank
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: Checkout
   }
   // {
   //   path: "/about",
